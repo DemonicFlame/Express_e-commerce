@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
+import { seedAdmin } from "./scripts/seedAdmin.js";
 import errorHandler from "./middlewares/errorHandler.js";
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(errorHandler);
 const startServer = async () => {
   try {
     await connectDB();
+    await seedAdmin();
     console.log("Connected to the database successfully.");
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`);
