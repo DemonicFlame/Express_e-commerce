@@ -4,6 +4,7 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import { seedAdmin } from "./scripts/seedAdmin.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 const port = process.env.PORT || 3000;
@@ -13,6 +14,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use(errorHandler);
+
+app.use("/auth", authRoutes);
 
 const startServer = async () => {
   try {
