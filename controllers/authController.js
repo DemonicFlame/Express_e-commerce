@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js";
 
-export const generateToken = (user) => {
+const generateToken = (user) => {
   const JWT_SECRET = process.env.JWT_SECRET;
   return jwt.sign({ id: user._id }, JWT_SECRET, {
     expiresIn: "1h",
