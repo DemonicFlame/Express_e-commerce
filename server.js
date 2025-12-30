@@ -6,6 +6,7 @@ import { seedAdmin } from "./scripts/seedAdmin.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
 
 dotenv.config();
 const port = process.env.PORT || 3000;
@@ -18,6 +19,7 @@ app.use(errorHandler);
 
 app.use("/api/auth", authRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", productRoutes);
 
 const startServer = async () => {
   try {
