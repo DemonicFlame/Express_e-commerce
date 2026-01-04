@@ -8,6 +8,8 @@ import authRoutes from "./routes/authRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 dotenv.config();
 const port = process.env.PORT || 3000;
@@ -22,6 +24,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api", orderRoutes);
+app.use("/api/admin/users", userRoutes);
 
 const startServer = async () => {
   try {
