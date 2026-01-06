@@ -12,6 +12,13 @@ export const addItem = async (req, res, next) => {
       });
     }
 
+    if (product.stock < quantity) {
+      return res.status(400).json({
+        success: false,
+        message: `Insufficient stock. Available: ${product.stock}, Requested: ${quantity}`,
+      });
+    }
+
     let cart = await Cart.findOne({ user: req.user._id });
     if (!cart) {
       cart = await Cart.create({ user: req.user._id, items: [] });
@@ -21,7 +28,14 @@ export const addItem = async (req, res, next) => {
     );
 
     if (existingItem) {
-      existingItem.quantity += quantity;
+      const newQuantity = existingItem.quantity + quantity;
+      if (newQuantity > product.stock) {
+        return res.status(400).json({
+          success: false,
+          message: `Insufficient stock. Available: ${product.stock}, Requested: ${newQuantity}`,
+        });
+      }
+      existingItem.quantity = newQuantity;
     } else {
       cart.items.push({ product: productId, quantity });
     }
@@ -97,6 +111,12 @@ export const removeItem = async (req, res, next) => {
       });
     }
     const cart = await Cart.findOne({ user: req.user._id });
+    if (!cart) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart not found",
+      });
+    }
     cart.items = cart.items.filter((item) => !item.product.equals(productId));
     await cart.save();
     res.status(200).json({
@@ -112,6 +132,12 @@ export const removeItem = async (req, res, next) => {
 export const clearCart = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({ user: req.user._id });
+    if (!cart) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart already empty",
+      });
+    }
     cart.items = [];
     await cart.save();
     res.status(200).json({

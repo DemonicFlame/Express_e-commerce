@@ -18,14 +18,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.use(errorHandler);
-
 app.use("/api/auth", authRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", productRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api", orderRoutes);
 app.use("/api/admin/users", userRoutes);
+
+app.use(errorHandler);
 
 const startServer = async () => {
   try {

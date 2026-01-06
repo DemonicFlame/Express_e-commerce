@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const clientOptions = {
-  dbName: "blogApp",
+  dbName: "ecommerceApp",
 };
 
 let isConnected = false;
